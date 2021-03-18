@@ -17,6 +17,16 @@ class PromotionsController < ApplicationController
     redirect_to @promotion
   end
 
+  def edit
+    @promotion = Promotion.find(params[:id])
+  end
+
+  def update
+    @promotion = Promotion.find(params[:id])
+    @promotion.update(promotion_params)
+    redirect_to @promotion
+  end
+
   private
     def promotion_params
       params
