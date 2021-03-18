@@ -111,7 +111,7 @@ class PromotionsTest < ApplicationSystemTestCase
     fill_in 'Nome', with: 'Ano novo'
     fill_in 'Descrição', with: 'Comece o ano com uma otima promoção'
     fill_in 'Código', with: 'ANO10'
-    click_on 'Enviar'
+    click_on 'Editar'
 
     assert_current_path promotion_path(promotion)
 
