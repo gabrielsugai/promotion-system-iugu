@@ -119,4 +119,23 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'Comece o ano com uma otima promoção'
     assert_text 'ANO10'
   end
+
+  test 'delete a promotion' do
+    Promotion.create!(name: 'Natal', 
+                      description: 'Promoção de Natal',
+                      code: 'NATAL10', discount_rate: 10, 
+                      coupon_quantity: 100,
+                      expiration_date: '22/12/2033')
+    
+    visit root_path
+    click_on 'Promoções'
+    click_on 'Natal'
+    click_on 'Excluir'
+    page.driver.browser.switch_to.alert.accept
+
+    assert_current_path promotions_path
+
+    assert_no_text 'Natal'
+    assert_no_text 'Promoção de Natal'
+  end
 end
