@@ -12,5 +12,21 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     assert_text 'ANTIFRA'
     assert_text 'Produto Teste'
     assert_text 'TEST'
+    assert_link 'Voltar'
+  end
+
+  test 'view product categories details' do
+    ProductCategory.create!(name: 'Produto AntiFraude', code: 'ANTIFRA')
+    ProductCategory.create!(name: 'Produto Teste', code: 'TEST')
+
+    visit root_path
+    click_on 'Categorias de produto'
+    click_on 'Produto AntiFraude'
+
+    assert_text 'Produto AntiFraude'
+    assert_text 'ANTIFRA'
+    assert_no_text 'Produto Teste'
+    assert_no_text 'TEST'
+    assert_link 'Voltar'
   end
 end
