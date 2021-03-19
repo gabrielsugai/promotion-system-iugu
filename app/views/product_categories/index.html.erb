@@ -1,3 +1,7 @@
+<% if @product_categories.empty? %>
+  <p>Nenhuma categoria de produto cadastrada</p>
+<% end %>
+
 <% @product_categories.each do |category| %>
   <dl>
     <dt>Nome</dt>

@@ -29,4 +29,11 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     assert_no_text 'TEST'
     assert_link 'Voltar'
   end
+
+  test 'no category are available' do
+    visit root_path
+    click_on 'Categorias de produto'
+
+    assert_text 'Nenhuma categoria de produto cadastrada'
+  end
 end
