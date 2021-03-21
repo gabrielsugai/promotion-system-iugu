@@ -51,4 +51,18 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     assert_current_path product_category_path(ProductCategory.last)
   end
 
+  test 'edit a category' do
+    ProductCategory.create!(name: 'Produto AntiFraude', code: 'ANTIFRA')
+
+    visit root_path
+    click_on 'Categorias de produto'
+    click_on 'Editar categoria'
+    fill_in 'Código', with: 'TESTE'
+    click_on 'Editar categoria'
+
+    assert_text 'Produto AntiFraude'
+    assert_text 'TESTE'
+    assert_current_path product_category_path(ProductCategory.last)
+  end
+
 end

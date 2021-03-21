@@ -3,12 +3,15 @@
 <% end %>
 
 <% @product_categories.each do |category| %>
-  <dl>
-    <dt>Nome</dt>
-      <dd><%= link_to category.name, category %></dd>
-    <dt>Código</dt>
-      <dd><%= category.code %></dd>
-  </dl>
+  <div>
+    <dl>
+      <dt>Nome</dt>
+        <dd><%= link_to category.name, category %></dd>
+      <dt>Código</dt>
+        <dd><%= category.code %></dd>
+    </dl>
+    <%= link_to "Editar categoria", edit_product_category_path(category) %>
+  </div>
 <% end %>
 
 <%= link_to "Registrar uma categoria", new_product_category_path %>

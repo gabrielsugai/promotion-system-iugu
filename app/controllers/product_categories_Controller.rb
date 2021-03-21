@@ -18,6 +18,16 @@ class ProductCategoriesController < ApplicationController
     redirect_to @product_category
   end
 
+  def edit
+    @product_category = ProductCategory.find(params[:id])
+  end
+
+  def update
+    @product_category = ProductCategory.find(params[:id])
+    @product_category.update(category_params)
+    redirect_to @product_category
+  end
+
   private
     
     def category_params
