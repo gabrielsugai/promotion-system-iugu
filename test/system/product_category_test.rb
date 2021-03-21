@@ -36,4 +36,19 @@ class ProductCategoriesTest < ApplicationSystemTestCase
 
     assert_text 'Nenhuma categoria de produto cadastrada'
   end
+
+  test 'create category' do
+    visit root_path
+    click_on 'Categorias de produto'
+    click_on 'Registrar uma categoria'
+    fill_in 'Nome', with: 'Produto AntiFraude'
+    fill_in 'Código', with: 'ANTIFRA'
+    click_on 'Criar categoria'
+
+    assert_text 'Produto AntiFraude'
+    assert_text 'ANTIFRA'
+    assert_link 'Voltar'
+    assert_current_path product_category_path(ProductCategory.last)
+  end
+
 end
