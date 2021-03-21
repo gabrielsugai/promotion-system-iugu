@@ -4,4 +4,6 @@
   <dd><%= @product_category.code %></dd>
 </dl>
 
+<%= link_to "Excluir", product_category_path(@product_category), method: :delete, 
+                  data: { confirm: 'Deseja realmente apagar essa promoção?'} %>
 <%= link_to "Voltar", product_categories_path %>

@@ -65,4 +65,17 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     assert_current_path product_category_path(ProductCategory.last)
   end
 
+  test 'delete a category' do
+    category = ProductCategory.create!(name: 'Produto AntiFraude', code: 'ANTIFRA')
+
+    visit product_category_path(category)
+    click_on 'Excluir'
+    page.driver.browser.switch_to.alert.accept
+
+    assert_current_path product_categories_path
+
+    assert_no_text 'Produto AntiFraude'
+    assert_no_text 'ANTIFRA'
+  end
+
 end
