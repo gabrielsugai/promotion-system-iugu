@@ -1,0 +1,22 @@
+<% if category.errors.any? %>
+  <h3>Não foi possivel salvar a categoria, erros encontrados</h3>
+  <ul>
+    <% category.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: category do |f| %>
+  <div>
+    <%= f.label :name, 'Nome' %>
+    <%= f.text_field :name %>
+  </div>
+  <div>
+    <%= f.label :code, 'Código' %>
+    <%= f.text_field :code %>
+  </div>
+  <div>
+    <%= f.submit btn_txt %>
+  </div>
+<% end %>

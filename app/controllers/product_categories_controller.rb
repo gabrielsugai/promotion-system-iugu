@@ -14,8 +14,11 @@ class ProductCategoriesController < ApplicationController
 
   def create
     @product_category = ProductCategory.new(category_params)
-    @product_category.save
-    redirect_to @product_category
+    if @product_category.save
+      redirect_to @product_category
+    else
+      render :new
+    end
   end
 
   def edit

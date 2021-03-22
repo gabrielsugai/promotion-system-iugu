@@ -78,4 +78,26 @@ class ProductCategoriesTest < ApplicationSystemTestCase
     assert_no_text 'ANTIFRA'
   end
 
+  test 'create and attributes cannot be blank' do
+    visit root_path
+
+    click_on 'Categorias de produto'
+    click_on 'Registrar uma categoria'
+    click_on 'Criar categoria'
+
+    assert_text 'não pode ficar em branco', count: 2
+  end
+
+  test 'create and code/name must be unique' do
+    ProductCategory.create!(name: 'Produto Teste', code: 'TESTE')
+
+    visit root_path
+    click_on 'Categorias de produto'
+    click_on 'Registrar uma categoria'
+    fill_in 'Nome', with: 'Produto Teste'
+    fill_in 'Código', with: 'TESTE'
+    click_on 'Criar categoria'
+
+    assert_text 'deve ser único', count: 2
+  end
 end
