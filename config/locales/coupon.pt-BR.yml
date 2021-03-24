@@ -5,3 +5,10 @@
         coupons:
           one: Cupom
           other: Cupons
+      attributes:
+        coupon/status:
+          active: Ativo
+          disabled: Desabilitado
+    coupons:
+      disable:
+        success: Cupom %{code} desabilitado com sucesso
