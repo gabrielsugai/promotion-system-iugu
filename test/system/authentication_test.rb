@@ -34,4 +34,17 @@ class AuthenticationTest < ApplicationSystemTestCase
     assert_link 'Sair'
     assert_no_link 'Entrar'
   end
-end
+
+  test 'user sign out' do
+    login_user
+    visit root_path
+    click_on 'Sair'
+
+    assert_text 'Saiu com sucesso.'
+    assert_no_text 'gabriel@iugu.com.br'
+    assert_no_link 'Sair'
+    assert_link 'Entrar'
+    assert_link 'Cadastrar'
+    assert_current_path root_path
+  end
+ end
