@@ -47,4 +47,20 @@ class AuthenticationTest < ApplicationSystemTestCase
     assert_link 'Cadastrar'
     assert_current_path root_path
   end
+
+  test 'and signup fields cannot be blank' do
+    visit root_path
+    click_on 'Cadastrar'
+    within 'form' do
+      click_on 'Cadastrar'
+    end
+    assert_text 'não pode ficar em branco', count: 2
+  end
+
+  test 'and login fields cannot be blank' do
+    visit root_path
+    click_on 'Entrar'
+    click_on 'Login'
+    assert_text 'Email ou senha inválida.'
+  end
  end

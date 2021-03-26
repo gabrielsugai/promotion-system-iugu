@@ -178,7 +178,7 @@ class PromotionsTest < ApplicationSystemTestCase
                                   discount_rate: 10, 
                                   coupon_quantity: 100,
                                   expiration_date: '22/12/2033')
-  
+    login_user
     visit promotion_path(promotion)
     click_on 'Gerar cupons'
 
@@ -195,5 +195,37 @@ class PromotionsTest < ApplicationSystemTestCase
   test 'do not view promotion link without login' do
     visit root_path
     assert_no_link 'Promoções'
+  end
+
+  test 'do not view promotions without login' do
+    visit promotions_path
+    assert_current_path new_user_session_path
+  end
+
+  test 'do not view a promotion details without login' do
+    promotion = Promotion.create!(name: 'Natal', 
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', 
+                                  discount_rate: 10, 
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+    visit promotion_path(promotion)
+    assert_current_path new_user_session_path
+  end
+
+  test 'do not create a new promotion without login' do
+    visit new_promotion_path
+    assert_current_path new_user_session_path
+  end
+  
+  test 'do not edit a promotion without login' do
+    promotion = Promotion.create!(name: 'Natal', 
+                                  description: 'Promoção de Natal',
+                                  code: 'NATAL10', 
+                                  discount_rate: 10, 
+                                  coupon_quantity: 100,
+                                  expiration_date: '22/12/2033')
+    visit edit_promotion_path(promotion)
+    assert_current_path new_user_session_path
   end
 end
