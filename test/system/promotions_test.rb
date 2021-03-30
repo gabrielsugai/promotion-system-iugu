@@ -48,7 +48,7 @@ class PromotionsTest < ApplicationSystemTestCase
     visit root_path
     click_on 'Promoções'
 
-    assert_text 'Nenhuma promoção cadastrada'
+    assert_text 'Nenhuma promoção encontrada'
   end
 
   test 'view promotions and return to home page' do
@@ -190,6 +190,52 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'NATAL10-0100 (Ativo)'
     assert_no_text 'NATAL10-0101'
     assert_link 'Desabilitar', count: 100
+  end
+
+  test 'search promotions by term and finds results' do
+    xmas = create(:promotion, name: 'Natal')
+    xmassy = create(:promotion, name: 'Natalina')
+    cyber = create(:promotion, name: 'Cyber Monday')
+
+    login_user
+    visit root_path
+    click_on 'Promoções'
+    fill_in 'Busca', with: 'natal'
+    click_on 'Buscar'
+
+    assert_text xmas.name
+    assert_text xmassy.name
+    refute_text cyber.name
+  end
+
+  test 'search with a nil term and redirect to all promotions' do
+    xmas = create(:promotion, name: 'Natal')
+    xmassy = create(:promotion, name: 'Natalina')
+    cyber = create(:promotion, name: 'Cyber Monday')
+
+    login_user
+    visit promotions_path
+    click_on 'Buscar'
+
+    assert_text xmas.name
+    assert_text xmassy.name
+    assert_text cyber.name
+  end
+
+  test 'search doesnt find the requested term' do
+    xmas = create(:promotion, name: 'Natal')
+    xmassy = create(:promotion, name: 'Natalina')
+    cyber = create(:promotion, name: 'Cyber Monday')
+
+    login_user
+    visit promotions_path
+    fill_in 'Busca', with: 'carnaval'
+    click_on 'Buscar'
+    
+    refute_text xmas.name
+    refute_text xmassy.name
+    refute_text cyber.name
+    assert_text 'Nenhuma promoção encontrada'
   end
 
   test 'do not view promotion link without login' do

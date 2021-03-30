@@ -57,4 +57,34 @@ class PromotionTest < ActiveSupport::TestCase
       promotion.generate_coupons!
     end
   end
+
+  test '.search by exact' do
+    christmas = create(:promotion, name: 'Natal')
+    cyber = create(:promotion, name: 'Cyber Monday')
+
+    result = Promotion.search('Natal')
+    assert_includes result, christmas
+    refute_includes result, cyber
+  end
+
+  test '.search by partial' do
+    christmas = create(:promotion, name: 'Natal')
+    xmas = create(:promotion, name: 'Natalina')
+    cyber = create(:promotion, name: 'Cyber Monday')
+
+    result = Promotion.search('natal')
+    assert_includes result, christmas
+    assert_includes result, xmas
+    refute_includes result, cyber
+  end
+
+  test '.search finds nothing' do
+    christmas = create(:promotion, name: 'Natal')
+    cyber = create(:promotion, name: 'Cyber Monday')
+
+    result = Promotion.search('carnaval')
+
+    assert_empty result
+  end
+
 end

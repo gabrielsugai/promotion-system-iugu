@@ -41,6 +41,11 @@ class PromotionsController < ApplicationController
     redirect_to @promotion, notice: 'Cupons gerados com sucesso'
   end
 
+  def search
+    @promotions = Promotion.search(params[:q])
+    render :index
+  end
+
   private
 
     def set_promotion
