@@ -179,13 +179,11 @@ class PromotionsTest < ApplicationSystemTestCase
   end
 
   test 'generate coupons for a promotion' do
-    user = login_user
-    promotion = Promotion.create!(name: 'Natal', 
-                                  description: 'Promoção de Natal',
-                                  code: 'NATAL10', 
-                                  discount_rate: 10, 
-                                  coupon_quantity: 100,
-                                  expiration_date: '22/12/2033', user: user)
+    user = create(:user)
+    approver = login_user
+    promotion = create(:promotion, name: 'Natal', user: user, discount_rate: 10)
+    create(:promotion_approval, user: approver, promotion: promotion)
+
     visit promotion_path(promotion)
     click_on 'Gerar cupons'
 
@@ -197,6 +195,15 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'NATAL10-0100 (Ativo)'
     assert_no_text 'NATAL10-0101'
     assert_link 'Desabilitar', count: 100
+  end
+
+  test 'can not generate coupons without an approve' do
+    promotion = create(:promotion)
+
+    login_user
+    visit promotion_path(promotion)
+
+    refute_link 'Gerar cupons'
   end
 
   test 'search promotions by term and finds results' do
@@ -304,5 +311,6 @@ class PromotionsTest < ApplicationSystemTestCase
     visit promotion_path(promotion)
 
     refute_link 'Aprovar'
+    refute_link 'Gerar cupons'
   end
 end

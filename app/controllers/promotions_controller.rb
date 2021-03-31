@@ -47,16 +47,15 @@ class PromotionsController < ApplicationController
   end
 
   def approve
-    PromotionApproval.create!(promotion: @promotion, user: current_user)
+    current_user.promotion_approvals.create!(promotion: @promotion)
     redirect_to @promotion, notice: 'Promoção aprovada com sucesso'
   end
 
   private
 
     def check_user
-      if @promotion.user == current_user
-        redirect_to @promotion, alert: 'Ação negada!'
-      end
+      redirect_to @promotion, 
+      alert: 'Ação negada!' unless @promotion.can_approve?(current_user)
     end
 
     def set_promotion
