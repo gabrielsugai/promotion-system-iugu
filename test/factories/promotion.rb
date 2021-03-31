@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :promotion do
+    user
     name { 'Promo' }
     description { 'Promocao teste' }
     sequence(:code) { |n| "#{name.split.join.upcase}#{n*5}" }

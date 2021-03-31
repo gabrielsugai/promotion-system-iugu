@@ -1,5 +1,8 @@
 class Promotion < ApplicationRecord
   has_many :coupons
+  belongs_to :user
+  has_one :promotion_approval
+
   validates :name, :discount_rate, :coupon_quantity, :expiration_date, 
             :code, presence: true
   
@@ -10,6 +13,10 @@ class Promotion < ApplicationRecord
     (1..coupon_quantity).each do |number|
       coupons.create!(code: "#{code}-#{'%04d' % number}")
     end
+  end
+
+  def approved?
+    promotion_approval.present?
   end
 
   def self.search(query)
