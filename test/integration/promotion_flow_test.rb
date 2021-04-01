@@ -71,4 +71,12 @@ class PromotionFlowTest < ActionDispatch::IntegrationTest
     refute promotion.reload.approved?
   end
 
+  test 'can not approve a promotion without a login' do
+    promotion = create(:promotion)
+
+    post approve_promotion_path(promotion)
+
+    assert_redirected_to new_user_session_path
+  end
+
 end
