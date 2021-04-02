@@ -1,0 +1,19 @@
+<h2><%= @coupon.code %></h2>
+
+<dl>
+  <dt>Status</dt>
+  <dd><%= Coupon.human_attribute_name("status.#{@coupon.status}") %></dd>
+</dl>
+
+<dl>
+  <dt>Promoção</dt>
+  <dd><%= @coupon.promotion.name %></dd>
+  <dt>Descrição</dt>
+  <dd><%= @coupon.promotion.description %></dd>
+  <dt>Desconto <small>em porcentagem</small> </dt>
+  <dd><%= number_to_percentage @coupon.promotion.discount_rate, precision: 2 %></dd>
+  <dt>Código</dt>
+  <dd><%= @coupon.promotion.code %></dd>
+  <dt>Data de término</dt>
+  <dd><%= l @coupon.promotion.expiration_date %></dd>
+</dl>

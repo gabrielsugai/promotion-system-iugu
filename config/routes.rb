@@ -14,9 +14,10 @@ Rails.application.routes.draw do
 
   resources :product_categories, only: [:index,:show, :new, :create, :edit, :update, :destroy]
 
-  resources :coupons, only: [] do
+  resources :coupons, only: [:show] do
     post 'disable', on: :member
     post 'active', on: :member
+    get 'search', on: :collection
   end
 
   namespace :api do

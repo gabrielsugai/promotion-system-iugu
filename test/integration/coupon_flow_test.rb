@@ -16,4 +16,13 @@ class CouponFlowTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to new_user_session_path
   end
+
+  test 'can not search a coupon without a login' do
+    promotion = create(:promotion, name: 'Natal', discount_rate: 10)
+    coupon = create(:coupon, code: 'NATAL10-0001', promotion: promotion)
+    
+    get search_coupons_path, params: { q: 'NATAL10-0001'}
+
+    assert_redirected_to new_user_session_path
+  end
 end

@@ -14,3 +14,5 @@
         success: Cupom %{code} desabilitado com sucesso
       active:
         success: Cupom %{code} habilitado com sucesso
+      search:
+        not_found: Cupom não encontrado

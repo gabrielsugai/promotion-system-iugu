@@ -23,6 +23,12 @@
   <%= link_to "Aprovar", approve_promotion_path(@promotion), method: :post, data: { confirm: 'Tem certeza? essa operação não pode ser desfeita'} %>
 <% end %>
 
+<%= form_with url: search_coupons_path, method: :get do |f| %>
+  <%= f.label :q, 'Buscar cupom' %>
+  <%= f.text_field :q %>
+  <%= f.submit 'Buscar' %>
+<% end %>
+
 <% @promotion.coupons.each do |coupon| %>
   <div id="coupon-<%= coupon.code.parameterize %>">
     <p><%= "#{coupon.code} (#{Coupon.human_attribute_name("status.#{coupon.status}")})"%></p>
