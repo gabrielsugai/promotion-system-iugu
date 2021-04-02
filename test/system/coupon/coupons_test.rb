@@ -20,5 +20,25 @@ class CouponsTest < ApplicationSystemTestCase
       assert_no_link 'Desabilitar'
     end
     assert_link 'Desabilitar', count: promotion.coupon_quantity - 1
+    assert_link 'Habilitar', count: 1
+  end
+
+  test 'enable a coupon' do
+    promotion = create(:promotion, name: 'Natal', discount_rate: 10)
+    coupon = create(:coupon, code:'NATAL10-0001' ,status: 10, promotion: promotion)
+    
+    login_user
+    visit promotion_path(promotion)
+    within 'div#coupon-natal10-0001' do
+      click_on 'Habilitar'
+    end
+
+    assert_text "Cupom NATAL10-0001 habilitado com sucesso"
+    within 'div#coupon-natal10-0001' do
+      assert_text "NATAL10-0001"
+    end
+    assert_link 'Desabilitar'
+    assert_no_link 'Habilitar'
+
   end
 end

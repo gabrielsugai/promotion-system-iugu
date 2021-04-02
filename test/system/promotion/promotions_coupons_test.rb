@@ -51,5 +51,4 @@ class PromotionsCouponsTest < ApplicationSystemTestCase
     refute_link 'Aprovar'
     refute_link 'Gerar cupons'
   end
-  # TODO: test de login para aprovar
 end

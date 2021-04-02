@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   resources :coupons, only: [] do
     post 'disable', on: :member
+    post 'active', on: :member
   end
 
   namespace :api do
