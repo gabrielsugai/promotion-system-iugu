@@ -1,6 +1,6 @@
 require 'application_system_test_case'
 
-class ProductCategoriesTest < ApplicationSystemTestCase
+class ProductCategoriesCrudTest < ApplicationSystemTestCase
   test 'view product categories' do
     ProductCategory.create!(name: 'Produto AntiFraude', code: 'ANTIFRA')
     ProductCategory.create!(name: 'Produto Teste', code: 'TEST')

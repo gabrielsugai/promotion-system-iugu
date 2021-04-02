@@ -1,6 +1,6 @@
 require 'application_system_test_case'
 
-class PromotionsTest < ApplicationSystemTestCase
+class PromotionsCrudTest < ApplicationSystemTestCase
   test 'view promotions' do
     user = login_user
     Promotion.create!(name: 'Natal', description: 'Promoção de Natal',
@@ -50,12 +50,6 @@ class PromotionsTest < ApplicationSystemTestCase
     click_on 'Promoções'
 
     assert_text 'Nenhuma promoção encontrada'
-  end
-
-  test 'can not search promotions without login' do
-    visit search_promotions_path(q: 'test')
-
-    assert_current_path new_user_session_path
   end
 
   test 'view promotions and return to home page' do
@@ -178,80 +172,6 @@ class PromotionsTest < ApplicationSystemTestCase
     assert_text 'já está em uso', count: 2
   end
 
-  test 'generate coupons for a promotion' do
-    user = create(:user)
-    approver = login_user
-    promotion = create(:promotion, name: 'Natal', user: user, discount_rate: 10)
-    create(:promotion_approval, user: approver, promotion: promotion)
-
-    visit promotion_path(promotion)
-    click_on 'Gerar cupons'
-
-    assert_text 'Cupons gerados com sucesso'
-    assert_no_link 'Gerar cupons'
-    assert_no_text 'NATAL10-0000'
-    assert_text 'NATAL10-0001 (Ativo)'
-    assert_text 'NATAL10-0002 (Ativo)'
-    assert_text 'NATAL10-0100 (Ativo)'
-    assert_no_text 'NATAL10-0101'
-    assert_link 'Desabilitar', count: 100
-  end
-
-  test 'can not generate coupons without an approve' do
-    promotion = create(:promotion)
-
-    login_user
-    visit promotion_path(promotion)
-
-    refute_link 'Gerar cupons'
-  end
-
-  test 'search promotions by term and finds results' do
-    user = login_user
-    xmas = create(:promotion, name: 'Natal', user: user)
-    xmassy = create(:promotion, name: 'Natalina', user: user)
-    cyber = create(:promotion, name: 'Cyber Monday', user: user)
-
-    visit root_path
-    click_on 'Promoções'
-    fill_in 'Busca', with: 'natal'
-    click_on 'Buscar'
-
-    assert_text xmas.name
-    assert_text xmassy.name
-    refute_text cyber.name
-  end
-
-  test 'search with a nil term and redirect to all promotions' do
-    user = login_user
-    xmas = create(:promotion, name: 'Natal', user: user)
-    xmassy = create(:promotion, name: 'Natalina', user: user)
-    cyber = create(:promotion, name: 'Cyber Monday', user: user)
-
-    visit promotions_path
-    click_on 'Buscar'
-
-    assert_text xmas.name
-    assert_text xmassy.name
-    assert_text cyber.name
-  end
-
-  test 'search doesnt find the requested term' do
-    user = login_user
-    xmas = create(:promotion, name: 'Natal', user: user)
-    xmassy = create(:promotion, name: 'Natalina', user: user)
-    cyber = create(:promotion, name: 'Cyber Monday', user: user)
-
-    visit promotions_path
-    fill_in 'Busca', with: 'carnaval'
-    click_on 'Buscar'
-    
-    refute_text xmas.name
-    refute_text xmassy.name
-    refute_text cyber.name
-    assert_text 'Nenhuma promoção encontrada'
-  end
-
   test 'do not view promotion link without login' do
     visit root_path
     assert_no_link 'Promoções'
@@ -290,29 +210,4 @@ class PromotionsTest < ApplicationSystemTestCase
     visit edit_promotion_path(promotion)
     assert_current_path new_user_session_path
   end
-
-  test 'user approves promotion' do
-    user = create(:user)
-    promotion = create(:promotion, user: user)
-    
-    approver = login_user
-    visit promotion_path(promotion)
-    accept_confirm { click_on 'Aprovar' }
-
-    assert_text 'Promoção aprovada com sucesso'
-    assert_text "Aprovada por: #{approver.email}"
-    assert_link 'Gerar cupons'
-  end
-
-  test 'user cannot see the approves button' do
-    user = login_user
-    promotion = create(:promotion, user: user)
-
-    visit promotion_path(promotion)
-
-    refute_link 'Aprovar'
-    refute_link 'Gerar cupons'
-  end
-
-  # TODO: test de login para aprovar
 end
