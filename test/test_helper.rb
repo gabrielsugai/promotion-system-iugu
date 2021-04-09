@@ -4,9 +4,10 @@ require "rails/test_help"
 require_relative 'support/login_helper'
 
 class ActiveSupport::TestCase
-  include Warden::Test::Helpers
-  include LoginHelper
+  include ActionMailer::TestHelper
   include FactoryBot::Syntax::Methods
+  include LoginHelper
+  include Warden::Test::Helpers
   FactoryBot.reload
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)
